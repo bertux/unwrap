@@ -65,7 +65,7 @@ function App() {
         <h2>Pay</h2>
         <form onSubmit={submit}>
           <input name="address" defaultValue="0x31c78ca321f6bbbd86f6fedf15b3ae9da808ee90" required />
-          <input name="amount" type="number" placeholder="amount" required />
+          <input name="amount" type="number" defaultValue="1000" required />
           <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Pay'}</button>
           {hash && <div>Transaction Hash: {hash}</div>}
           {isConfirming && <div>Waiting for confirmation...</div>}
