@@ -7,7 +7,7 @@ function App() {
   const { connectors, connect, status, error:errorConnect } = useConnect()
   const { disconnect } = useDisconnect()
   const { data: hash, error, isPending, writeContract } = useWriteContract()
-  const address = '0x69D349E2009Af35206EFc3937BaD6817424729F7'
+  const address = '0x5A1750f9cb8A7E98e1FD618922Af276493318710'
 
   async function deposit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
