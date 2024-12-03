@@ -80,12 +80,6 @@ function App() {
         <form onSubmit={deposit}>
           <input name="amountWrap" type="number" defaultValue="1000000000000000000" required />
           <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Wrap'}</button>
-          {hash && <div>Transaction Hash: {hash}</div>}
-          {isConfirming && <div>Waiting for confirmation...</div>}
-          {isConfirmed && <div>Transaction confirmed.</div>}
-          {error && (
-            <div>Error: {(error as BaseError).shortMessage || error.message}</div>
-          )}
         </form>
       </div>
 
@@ -94,13 +88,17 @@ function App() {
         <form onSubmit={withdraw}>
           <input name="amountUnwrap" type="number" defaultValue="0.1" step="0.1" required />
           <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Unwrap'}</button>
-          {hash && <div>Transaction Hash: {hash}</div>}
+        </form>
+      </div>
+
+      <div>
+        <h2>Status</h2>
+        {hash && <div>Transaction Hash: {hash}</div>}
           {isConfirming && <div>Waiting for confirmation...</div>}
           {isConfirmed && <div>Transaction confirmed.</div>}
           {error && (
             <div>Error: {(error as BaseError).shortMessage || error.message}</div>
           )}
-        </form>
       </div>
     </>
   )
