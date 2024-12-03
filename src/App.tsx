@@ -8,13 +8,26 @@ function App() {
   const { connectors, connect, status, error:errorConnect } = useConnect()
   const { disconnect } = useDisconnect()
   const { data: hash, error, isPending, writeContract } = useWriteContract()
+  const address = '0x69D349E2009Af35206EFc3937BaD6817424729F7'
+
+  async function deposit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const amount = formData.get('amountWrap') as string
+    writeContract({
+      address: address,
+      abi,
+      functionName: 'deposit',
+      value: parseEther(amount),
+    })
+  }
 
   async function withdraw(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
-    const amount = formData.get('amount') as string
+    const amount = formData.get('amountUnwrap') as string
     writeContract({
-      address: '0x69D349E2009Af35206EFc3937BaD6817424729F7',
+      address: address,
       abi,
       functionName: 'withdraw',
       args: [parseEther(amount)],
@@ -62,17 +75,29 @@ function App() {
       </div>
 
       <div>
+        <h2>Wrap</h2>
+        <form onSubmit={deposit}>
+          <input name="amountWrap" type="number" defaultValue="0.1" step="0.000000000000000001" required />
+          <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Wrap'}</button>
+        </form>
+      </div>
+
+      <div>
         <h2>Unwrap</h2>
         <form onSubmit={withdraw}>
-          <input name="amount" type="number" defaultValue="0.1" step="0.1" required />
+          <input name="amountUnwrap" type="number" defaultValue="0.1" step="0.000000000000000001" required />
           <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Unwrap'}</button>
-          {hash && <div>Transaction Hash: {hash}</div>}
+        </form>
+      </div>
+
+      <div>
+        <h2>Status</h2>
+        {hash && <div>Transaction Hash: {hash}</div>}
           {isConfirming && <div>Waiting for confirmation...</div>}
           {isConfirmed && <div>Transaction confirmed.</div>}
           {error && (
-            <div>Error: {(error as BaseError).shortMessage || error.message}</div>
+            <div>Error: {(error as BaseError).message || error.message}</div>
           )}
-        </form>
       </div>
     </>
   )

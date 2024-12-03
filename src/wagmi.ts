@@ -19,13 +19,33 @@ export const arthera = defineChain({
     },
   },
 })
+
+export const artheraTestnet = defineChain({
+  id: 10243,
+  name: 'artheraTestnet',
+  nativeCurrency: { name: 'AA', symbol: 'AA', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://rpc-test.arthera.net'] },
+  },
+  blockExplorers: {
+    default: { name: 'Blockscout', url: 'https://explorer-test.arthera.net' },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+      blockCreated: 4502791,
+    },
+  },
+})
+
 export const config = createConfig({
-  chains: [arthera],
+  chains: [arthera, artheraTestnet],
   connectors: [
     injected(),
   ],
   transports: {
     [arthera.id]: http(),
+    [artheraTestnet.id]: http(),
   },
 })
 
