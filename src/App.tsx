@@ -1,6 +1,7 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { type BaseError, useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
 import { abi } from './abi'
+import { parseEther } from 'viem'
 
 function App() {
   const account = useAccount()
@@ -16,7 +17,7 @@ function App() {
       address: '0x69D349E2009Af35206EFc3937BaD6817424729F7',
       abi,
       functionName: 'withdraw',
-      args: [BigInt(amount)],
+      args: [parseEther(amount)],
     })
   }
 
@@ -63,7 +64,7 @@ function App() {
       <div>
         <h2>Unwrap</h2>
         <form onSubmit={withdraw}>
-          <input name="amount" type="number" defaultValue="1000000000000000000" required />
+          <input name="amount" type="number" defaultValue="0.1" step="0.1" required />
           <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Unwrap'}</button>
           {hash && <div>Transaction Hash: {hash}</div>}
           {isConfirming && <div>Waiting for confirmation...</div>}
