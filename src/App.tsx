@@ -8,7 +8,7 @@ function App() {
   const { disconnect } = useDisconnect()
   const { data: hash, error, isPending, writeContract } = useWriteContract()
 
-  async function submit(e: React.FormEvent<HTMLFormElement>) {
+  async function withdraw(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
     const amount = formData.get('amount') as string
@@ -61,10 +61,10 @@ function App() {
       </div>
 
       <div>
-        <h2>Withdraw</h2>
-        <form onSubmit={submit}>
+        <h2>Unwrap</h2>
+        <form onSubmit={withdraw}>
           <input name="amount" type="number" defaultValue="1000000000000000000" required />
-          <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Withdraw'}</button>
+          <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Unwrap'}</button>
           {hash && <div>Transaction Hash: {hash}</div>}
           {isConfirming && <div>Waiting for confirmation...</div>}
           {isConfirmed && <div>Transaction confirmed.</div>}
