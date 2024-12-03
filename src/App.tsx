@@ -92,7 +92,7 @@ function App() {
       <div>
         <h2>Unwrap</h2>
         <form onSubmit={withdraw}>
-          <input name="amount" type="number" defaultValue="0.1" step="0.1" required />
+          <input name="amountUnwrap" type="number" defaultValue="0.1" step="0.1" required />
           <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Unwrap'}</button>
           {hash && <div>Transaction Hash: {hash}</div>}
           {isConfirming && <div>Waiting for confirmation...</div>}
