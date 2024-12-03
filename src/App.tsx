@@ -11,13 +11,12 @@ function App() {
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
-    const address = formData.get('address') as `0x${string}`
     const amount = formData.get('amount') as string
-        writeContract({
-      address: '0x24a3F04F70B7f07B9673EadD3e146391BcfEa5c1',
+    writeContract({
+      address: '0x69D349E2009Af35206EFc3937BaD6817424729F7',
       abi,
-      functionName: 'transfer',
-      args: [address,BigInt(amount)],
+      functionName: 'withdraw',
+      args: [BigInt(amount)],
     })
   }
 
@@ -62,11 +61,10 @@ function App() {
       </div>
 
       <div>
-        <h2>Pay</h2>
+        <h2>Withdraw</h2>
         <form onSubmit={submit}>
-          <input name="address" defaultValue="0x31c78ca321f6bbbd86f6fedf15b3ae9da808ee90" required />
-          <input name="amount" type="number" defaultValue="1000" required />
-          <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Pay'}</button>
+          <input name="amount" type="number" defaultValue="1000000000000000000" required />
+          <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Withdraw'}</button>
           {hash && <div>Transaction Hash: {hash}</div>}
           {isConfirming && <div>Waiting for confirmation...</div>}
           {isConfirmed && <div>Transaction confirmed.</div>}
