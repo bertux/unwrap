@@ -8,13 +8,27 @@ function App() {
   const { connectors, connect, status, error:errorConnect } = useConnect()
   const { disconnect } = useDisconnect()
   const { data: hash, error, isPending, writeContract } = useWriteContract()
+  const address = '0x69D349E2009Af35206EFc3937BaD6817424729F7'
+
+  async function deposit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const amount = formData.get('amountWrap') as string
+    writeContract({
+      address: address,
+      abi,
+      functionName: 'deposit',
+      args: [],
+      value: BigInt(amount),
+    })
+  }
 
   async function withdraw(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
-    const amount = formData.get('amount') as string
+    const amount = formData.get('amountUnwrap') as string
     writeContract({
-      address: '0x69D349E2009Af35206EFc3937BaD6817424729F7',
+      address: address,
       abi,
       functionName: 'withdraw',
       args: [parseEther(amount)],
@@ -59,6 +73,20 @@ function App() {
         ))}
         <div>{status}</div>
         <div>{errorConnect?.message}</div>
+      </div>
+
+      <div>
+        <h2>Wrap</h2>
+        <form onSubmit={deposit}>
+          <input name="amountWrap" type="number" defaultValue="1000000000000000000" required />
+          <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Wrap'}</button>
+          {hash && <div>Transaction Hash: {hash}</div>}
+          {isConfirming && <div>Waiting for confirmation...</div>}
+          {isConfirmed && <div>Transaction confirmed.</div>}
+          {error && (
+            <div>Error: {(error as BaseError).shortMessage || error.message}</div>
+          )}
+        </form>
       </div>
 
       <div>
