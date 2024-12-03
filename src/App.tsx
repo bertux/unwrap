@@ -18,8 +18,7 @@ function App() {
       address: address,
       abi,
       functionName: 'deposit',
-      args: [],
-      value: BigInt(amount),
+      value: parseEther(amount),
     })
   }
 
@@ -78,7 +77,7 @@ function App() {
       <div>
         <h2>Wrap</h2>
         <form onSubmit={deposit}>
-          <input name="amountWrap" type="number" defaultValue="1000000000000000000" required />
+          <input name="amountWrap" type="number" defaultValue="0.1" step="0.000000000000000001" required />
           <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Wrap'}</button>
         </form>
       </div>
@@ -86,7 +85,7 @@ function App() {
       <div>
         <h2>Unwrap</h2>
         <form onSubmit={withdraw}>
-          <input name="amountUnwrap" type="number" defaultValue="0.1" step="0.1" required />
+          <input name="amountUnwrap" type="number" defaultValue="0.1" step="0.000000000000000001" required />
           <button disabled={isPending} type="submit">{isPending ? 'Confirming...' : 'Unwrap'}</button>
         </form>
       </div>
@@ -97,7 +96,7 @@ function App() {
           {isConfirming && <div>Waiting for confirmation...</div>}
           {isConfirmed && <div>Transaction confirmed.</div>}
           {error && (
-            <div>Error: {(error as BaseError).shortMessage || error.message}</div>
+            <div>Error: {(error as BaseError).message || error.message}</div>
           )}
       </div>
     </>
